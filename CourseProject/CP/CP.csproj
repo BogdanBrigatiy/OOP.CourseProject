@@ -85,9 +85,11 @@
     <Compile Include="Model\DataItem.cs" />
     <Compile Include="Model\DataService.cs" />
     <Compile Include="Model\EEngineType.cs" />
-    <Compile Include="Model\Filter.cs" />
-    <Compile Include="Model\FilterArgs.cs" />
+    <Compile Include="Model\FileManager.cs" />
+    <Compile Include="Model\Filtering\Filter.cs" />
+    <Compile Include="Model\Filtering\FilterArgs.cs" />
     <Compile Include="Model\IDataService.cs" />
+    <Compile Include="Core\JsonHelper.cs" />
     <Compile Include="Model\PublicTransport.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -136,9 +138,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\Filtering\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

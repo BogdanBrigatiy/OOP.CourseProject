@@ -69,8 +69,15 @@ namespace CP.Model
         }
         #endregion
 
-        #region members
-
+        #region public members
+        public bool SaveToFile()
+        {
+            return true;
+        }
+        public void LoadFromFile()
+        {
+            
+        }
         #endregion
     }
 }
