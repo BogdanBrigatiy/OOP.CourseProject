@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Main.Model
+namespace CP.Model.Filtering
 {
     
     public class Filter
     {
         //public
-        public List<Transport> ApplyFilter(FilterArgs args, TFilter type)
+        public List<PublicTransport> ApplyFilter(FilterArgs args, TFilter type)
         {
-            var result = new List<Transport>();
+            var result = new List<PublicTransport>();
 
 
 

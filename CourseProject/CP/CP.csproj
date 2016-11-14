@@ -79,9 +79,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BoolToYesNoUkrConverter.cs" />
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Core\BaseNotifyingModel.cs" />
     <Compile Include="Model\AVehicle.cs" />
+    <Compile Include="Model\Constants.cs" />
     <Compile Include="Model\DataItem.cs" />
     <Compile Include="Model\DataService.cs" />
     <Compile Include="Model\EEngineType.cs" />

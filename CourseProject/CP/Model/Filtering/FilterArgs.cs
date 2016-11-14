@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Main.Model
+namespace CP.Model.Filtering
 {
     public enum TFilter
     {

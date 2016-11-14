@@ -1,32 +1,82 @@
-﻿<Window x:Class="CP.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ignore="http://www.galasoft.ch/ignore"
-        mc:Ignorable="d ignore"
-        Height="300"
-        Width="300"
-        Title="MVVM Light Application"
-        DataContext="{Binding Main, Source={StaticResource Locator}}">
-    
+﻿<Window
+    x:Class="CP.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:CP.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ignore="http://www.galasoft.ch/ignore"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MVVM Light Application"
+    Width="893.398"
+    Height="300"
+    DataContext="{Binding Main, Source={StaticResource Locator}}"
+    mc:Ignorable="d ignore">
+
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Skins/MainSkin.xaml" />
+                <ResourceDictionary>
+                    <Converters:BoolToYesNoUkrConverter x:Key="BoolToYesNoUkrConverter" />
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Margin="0,0,-8,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="1.5*" />
+        </Grid.ColumnDefinitions>
+        <ListView
+            x:Name="listView"
+            ScrollViewer.VerticalScrollBarVisibility="Visible"
+            Width="575"
+            Height="254"
+            Margin="10,5,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            ItemsSource="{Binding TransportList}">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn
+                            Width="75"
+                            DisplayMemberBinding="{Binding Path=Model}"
+                            Header="Марка" />
+                        <GridViewColumn
+                            Width="60"
+                            DisplayMemberBinding="{Binding Path=EngineType}"
+                            Header="Двигун" />
+                        <GridViewColumn
+                            Width="90"
+                            DisplayMemberBinding="{Binding Path=EnginePower}"
+                            Header="Потужність, к.с." />
+                        <GridViewColumn
+                            Width="55"
+                            DisplayMemberBinding="{Binding Path=Axles}"
+                            Header="Осей" />
+                        <GridViewColumn
+                            Width="70"
+                            DisplayMemberBinding="{Binding Path=PassengerCapacity}"
+                            Header="Місткість" />
+                        <GridViewColumn
+                            Width="50"
+                            DisplayMemberBinding="{Binding Path=Seats}"
+                            Header="Сидінь" />
+                        <GridViewColumn
+                            Width="55"
+                            DisplayMemberBinding="{Binding Path=Doors}"
+                            Header="Дверей" />
+                        <GridViewColumn
+                            Width="90"
+                            DisplayMemberBinding="{Binding Path=LowClearance, Converter={StaticResource ResourceKey=BoolToYesNoUkrConverter}}"
+                            Header="Низька підлога" />
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
 
-        <TextBlock FontSize="36"
-                   FontWeight="Bold"
-                   Foreground="Purple"
-                   Text="{Binding WelcomeTitle}"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   TextWrapping="Wrap" />
 
     </Grid>
 </Window>

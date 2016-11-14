@@ -1,7 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using CP.Model;
 using System.Collections.ObjectModel;
-using Main.Model;
+using System.Windows;
+using CP.Core;
+using System.Collections.Generic;
+//using /*Main*/.Model;
 
 namespace CP.ViewModel
 {
@@ -13,40 +16,32 @@ namespace CP.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private readonly IDataService _dataService;
+        //private readonly IDataService _dataService;
 
-        private ObservableCollection<PublicTransport> vehicles { get; set; }
+        private ObservableCollection<PublicTransport> _vehicles;
 
-
-        /// <summary>
-        /// The <see cref="WelcomeTitle" /> property's name.
-        /// </summary>
-        public const string WelcomeTitlePropertyName = "WelcomeTitle";
-
-        private string _welcomeTitle = string.Empty;
-
-        /// <summary>
-        /// Gets the WelcomeTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string WelcomeTitle
+        public ObservableCollection<PublicTransport> TransportList
         {
-            get
-            {
-                return _welcomeTitle;
-            }
-            set
-            {
-                Set(ref _welcomeTitle, value);
-            }
+            get { return _vehicles; }
+            set { _vehicles = value; RaisePropertyChanged(() => TransportList); }
         }
+
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel(IDataService dataService)
+        public MainViewModel()
         {
-            vehicles.Add(new PublicTransport() { Axles = 10, Passengers = 30 });
+            TransportList = new ObservableCollection<PublicTransport>();
+            //var fm = new FileManager();
+            //var json = fm.ReadFromFile(Constants.DefaultFilePath);
+            //var vc = JsonHelper.Deserealize<List<PublicTransport>>(json);
+            
+            var v = new PublicTransport() { Axles = 10, PassengerCapacity = 30 };
+            //MessageBox.Show(v.ToString());
+            //v.LoadFromFile();//.SaveToFile();
+            //MessageBox.Show(v.ToString());
+            TransportList.Add(new PublicTransport() { Axles = 10, PassengerCapacity = 30 });
         }
 
         ////public override void Cleanup()

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CP.Core;
+using System;
+using System.Windows;
 
 namespace CP.Model
 {
@@ -43,7 +45,7 @@ namespace CP.Model
 
         }
 
-        public PublicTransport(string model,
+        public PublicTransport(VModel model,
             EEngineType eType,
             int power,
             int axles,
@@ -72,11 +74,34 @@ namespace CP.Model
         #region public members
         public bool SaveToFile()
         {
-            return true;
+            var fm = new FileManager();
+            //var list = 
+            return fm.WriteToFile(JsonHelper.Serialize(this), Constants.DefaultFilePath);
+            //return true;
         }
         public void LoadFromFile()
         {
-            
+            var fm = new FileManager();
+            try
+            {
+                var newInstance = (PublicTransport)JsonHelper.Deserealize<PublicTransport>(fm.ReadFromFile(Constants.DefaultFilePath)).Clone();
+                Model = newInstance.Model;
+                EngineType = newInstance.EngineType;
+                Axles = newInstance.Axles;
+                EnginePower = newInstance.EnginePower;
+                PassengerCapacity = newInstance.PassengerCapacity;
+                Seats = newInstance.Seats;
+                Doors = newInstance.Doors;
+                LowClearance = newInstance.LowClearance;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "An error occured!");
+            }            
+        }
+        public override string ToString()
+        {
+            return JsonHelper.Serialize(this);
         }
         #endregion
     }
