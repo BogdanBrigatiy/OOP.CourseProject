@@ -35,7 +35,7 @@ namespace CP.ViewModel
             //}
             //else
             //{
-            //SimpleIoc.Default.Register<IDataService, DataService>();
+            SimpleIoc.Default.Register<IDataService, DataService>();
             //}
 
             SimpleIoc.Default.Register<MainViewModel>();

@@ -80,6 +80,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\BoolToYesNoUkrConverter.cs" />
+    <Compile Include="Core\Order.cs" />
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Core\BaseNotifyingModel.cs" />
     <Compile Include="Model\AVehicle.cs" />
@@ -140,7 +141,14 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Skins\ArrowUp.ico" />
+    <Resource Include="Skins\ArrowDown.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Skins\Descending.ico" />
+    <Resource Include="Skins\Ascending.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

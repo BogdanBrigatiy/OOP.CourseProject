@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using CP.ViewModel;
+using System.Windows.Controls;
 
 namespace CP
 {
@@ -14,7 +15,22 @@ namespace CP
         public MainWindow()
         {
             InitializeComponent();
+            //var gv = (GridView)listView.View;
+            //var column = gv.Columns[4];
+            //column
+            //((System.ComponentModel.INotifyPropertyChanged)column).PropertyChanged += (sender, e) =>
+            //{
+            //    if (e.PropertyName == "ActualWidth")
+            //    {
+            //        //do something here...
+            //    }
+            //};
             Closing += (s, e) => ViewModelLocator.Cleanup();
+        }
+
+        private void GridViewColumn_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            MessageBox.Show("sdssdds");
         }
     }
 }

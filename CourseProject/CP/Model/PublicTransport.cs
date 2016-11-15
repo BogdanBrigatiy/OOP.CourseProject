@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace CP.Model
 {
-    public class PublicTransport : AVehicle, ICloneable
+    public class PublicTransport : AVehicle, ICloneable//, IComparable<PublicTransport>
     {
         #region private fields
         private int _doors, _passengersCapacity, _seats, _enginePower;
@@ -103,6 +103,13 @@ namespace CP.Model
         {
             return JsonHelper.Serialize(this);
         }
+        //public int CompareTo(PublicTransport cmpr)
+        //{
+        //    int flag = 0;
+        //    if (cmpr.PassengerCapacity > this.PassengerCapacity) flag = 1;
+        //    if (cmpr.PassengerCapacity < this.PassengerCapacity) flag = -1;
+        //    return flag;
+        //}
         #endregion
     }
 }

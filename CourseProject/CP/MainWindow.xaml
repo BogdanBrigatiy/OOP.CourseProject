@@ -6,9 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ignore="http://www.galasoft.ch/ignore"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="MVVM Light Application"
-    Width="893.398"
-    Height="300"
+    Title="Object-oriented programming course project"
+    Width="1077.398"
+    Height="425"
     DataContext="{Binding Main, Source={StaticResource Locator}}"
     mc:Ignorable="d ignore">
 
@@ -23,20 +23,20 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid x:Name="LayoutRoot" Margin="0,0,-8,0">
+    <Grid x:Name="LayoutRoot" Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="1.5*" />
         </Grid.ColumnDefinitions>
         <ListView
             x:Name="listView"
-            ScrollViewer.VerticalScrollBarVisibility="Visible"
             Width="575"
-            Height="254"
+            Height="380"
             Margin="10,5,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            ItemsSource="{Binding TransportList}">
+            ItemsSource="{Binding TransportList}"
+            ScrollViewer.VerticalScrollBarVisibility="Visible">
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
@@ -59,7 +59,7 @@
                         <GridViewColumn
                             Width="70"
                             DisplayMemberBinding="{Binding Path=PassengerCapacity}"
-                            Header="Місткість" />
+                            Header="Пасажирів" />
                         <GridViewColumn
                             Width="50"
                             DisplayMemberBinding="{Binding Path=Seats}"
@@ -76,6 +76,66 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <TextBlock
+            x:Name="textBlock"
+            Grid.Column="1"
+            Margin="9,37,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="За пасажиромісткістю"
+            TextWrapping="Wrap" />
+
+        <Button
+            x:Name="button"
+            Grid.Column="1"
+            Width="105"
+            Margin="139,36,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Command="{Binding OrderByCommand}"
+            Content="{Binding ordrBtnText}" />
+        <TextBlock
+            x:Name="textBlock1"
+            Grid.Column="1"
+            Margin="9,10,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="Робота з даними"
+            TextWrapping="Wrap" />
+        <GridSplitter
+            x:Name="gridSplitter"
+            Grid.Column="1"
+            Width="1"
+            Height="400"
+            Margin="0,0,0,-6"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top" />
+        <GridSplitter
+            x:Name="gridSplitter1"
+            Grid.Column="1"
+            Width="346"
+            Height="1"
+            Margin="0,31,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top" />
+        <TextBlock
+            x:Name="textBlock_Copy"
+            Grid.Column="1"
+            Margin="9,66,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="Середня потужність двигунів: "
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="textBlock_Copy1"
+            Grid.Column="1"
+            Margin="179,66,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="{Binding AvgPower, StringFormat={}{0:0.##} к.с.}"
+            TextWrapping="Wrap" />
+
 
 
     </Grid>

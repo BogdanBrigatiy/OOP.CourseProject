@@ -7,6 +7,7 @@ namespace CP.Model
 {
     public interface IDataService
     {
-        void GetData(Action<DataItem, Exception> callback);
+        void GetTrasportList(Action<List<PublicTransport>, Exception> callback);
+        List<PublicTransport> GetTrasportListNoCallback();
     }
 }
