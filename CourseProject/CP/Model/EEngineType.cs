@@ -11,6 +11,6 @@ namespace CP.Model
         Diesel,
         Gas,
         Biofuel,
-        Electical
+        Electrical
     }
 }

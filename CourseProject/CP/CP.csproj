@@ -79,13 +79,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\StringToComparerConverter.cs" />
+    <Compile Include="Converters\ComparerToStringConverter.cs" />
+    <Compile Include="Converters\ListLengthToBoolConverter.cs" />
+    <Compile Include="Converters\NullToBoolConverter.cs" />
     <Compile Include="Converters\BoolToYesNoUkrConverter.cs" />
+    <Compile Include="Core\CampareParameters.cs" />
     <Compile Include="Core\Order.cs" />
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Core\BaseNotifyingModel.cs" />
     <Compile Include="Model\AVehicle.cs" />
-    <Compile Include="Model\Constants.cs" />
-    <Compile Include="Model\DataItem.cs" />
+    <Compile Include="Core\Constants.cs" />
     <Compile Include="Model\DataService.cs" />
     <Compile Include="Model\EEngineType.cs" />
     <Compile Include="Model\FileManager.cs" />
@@ -131,6 +135,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

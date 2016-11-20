@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CP.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,10 +13,20 @@ namespace CP.Model.Filtering
         ByNumberOfAxles,
         ByAvgWeigh
     }
-    public class FilterArgs
+    public class SimpleFilterArgument<T>
     {
-        public int Axles { get; set; }
-        public int PassengersCapacity { get; set; }
-
+        public T Sample { get; set; }
+        public SimpleComparer Comparer { get; set; }
+    }
+    public class TransportFilterArgs
+    {
+        public SimpleFilterArgument<int> Axles { get; set; }
+        public SimpleFilterArgument<string> Model { get; set; }
+        public SimpleFilterArgument<EEngineType> EngineType { get; set; }
+        public SimpleFilterArgument<int> Doors { get; set; }
+        public SimpleFilterArgument<int> PassengerCapacity { get; set; }
+        public SimpleFilterArgument<int> Seats { get; set; }
+        public SimpleFilterArgument<int> EnginePower { get; set; }
+        public SimpleFilterArgument<int> LowClearance { get; set; }
     }
 }

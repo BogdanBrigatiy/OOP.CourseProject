@@ -7,6 +7,8 @@ using CP.Core;
 using System.Collections.Generic;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
+using CP.Model.Filtering;
+using System;
 //using /*Main*/.Model;
 
 namespace CP.ViewModel
@@ -20,15 +22,106 @@ namespace CP.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private readonly IDataService _dataService;
-
+        private readonly Filter _filter = new Filter();
         #region fields
         //private:
         Order _orderFlag = Order.None;
         string _ordrBtnCaption = "Не впорядковано";
         double _avgPower;
+        //filter parameters
+        SimpleFilterArgument<string> _modelArg;
+        SimpleFilterArgument<EEngineType> _engineTypeArg;
+        SimpleFilterArgument<int> _enginePowerArg;
+        SimpleFilterArgument<int> _axlesArg;
+        SimpleFilterArgument<int> _capacityArg;
+        SimpleFilterArgument<int> _seatsArg;
+        SimpleFilterArgument<int> _standsArg;
+        SimpleFilterArgument<bool> _lowClearanceArg;
+        SimpleFilterArgument<int> _doorsArg;
+
+        //Filter _ft = new Filter();
+        //FilterArgs _fargs = new FilterArgs();
+        PublicTransport _selected;
+        bool _impExpSAllowed = false;
         #endregion
 
+        void InitializeFilterParams()
+        {
+            ModelArg = new SimpleFilterArgument<string>() { Sample = "", Comparer = SimpleComparer.None };
+            EngineTypeArg = new SimpleFilterArgument<EEngineType>() { Sample = EEngineType.Gas, Comparer = SimpleComparer.None };
+            EnginePowerArg = new SimpleFilterArgument<int>() { Sample = 0, Comparer = SimpleComparer.None };
+            AxlesArg = new SimpleFilterArgument<int>() { Sample = 0, Comparer = SimpleComparer.None };
+            CapacityArg = new SimpleFilterArgument<int>() { Sample = 0, Comparer = SimpleComparer.None };
+            SeatsArg = new SimpleFilterArgument<int>() { Sample = 0, Comparer = SimpleComparer.None };
+            StandsArg = new SimpleFilterArgument<int>() { Sample = 0, Comparer = SimpleComparer.None };
+            DoorsArg = new SimpleFilterArgument<int>() { Sample = 0, Comparer = SimpleComparer.None };
+            LowClearanceArg = new SimpleFilterArgument<bool>() { Sample = true, Comparer = SimpleComparer.None };
+        }
+
         #region properties
+        public SimpleFilterArgument<string> ModelArg
+        {
+            get { return _modelArg; }
+            set { _modelArg = value; RaisePropertyChanged(() => ModelArg); }
+        }
+        public SimpleFilterArgument<EEngineType> EngineTypeArg
+        {
+            get { return _engineTypeArg; }
+            set { _engineTypeArg = value; RaisePropertyChanged(() => EngineTypeArg); }
+        }
+        public SimpleFilterArgument<int> EnginePowerArg
+        {
+            get { return _enginePowerArg; }
+            set { _enginePowerArg = value; RaisePropertyChanged(() => EnginePowerArg); }
+        }
+        public SimpleFilterArgument<int> AxlesArg
+        {
+            get { return _axlesArg; }
+            set { _axlesArg = value; RaisePropertyChanged(() => AxlesArg); }
+        }
+        public SimpleFilterArgument<int> CapacityArg
+        {
+            get { return _capacityArg; }
+            set { _capacityArg = value; RaisePropertyChanged(() => CapacityArg); }
+        }
+        public SimpleFilterArgument<int> SeatsArg
+        {
+            get { return _seatsArg; }
+            set { _seatsArg = value; RaisePropertyChanged(() => SeatsArg); }
+        }
+        public SimpleFilterArgument<int> StandsArg
+        {
+            get { return _standsArg; }
+            set { _standsArg = value; RaisePropertyChanged(() => StandsArg); }
+        }
+        public SimpleFilterArgument<int> DoorsArg
+        {
+            get { return _doorsArg; }
+            set { _doorsArg = value; RaisePropertyChanged(() => DoorsArg); }
+        }
+        public SimpleFilterArgument<bool> LowClearanceArg
+        {
+            get { return _lowClearanceArg; }
+            set { _lowClearanceArg = value; RaisePropertyChanged(() => LowClearanceArg); }
+        }
+        public PublicTransport SelectedItem
+        {
+            get { return _selected; }
+            set
+            {
+                _selected = value;
+                RaisePropertyChanged(() => SelectedItem);
+                CalculateAvgPower();
+                if (value != null) ImportExportSingleAllowed = true;
+                else ImportExportSingleAllowed = false;
+            }
+        }
+        public bool ImportExportSingleAllowed
+        {
+            get { return _impExpSAllowed; }
+            set { _impExpSAllowed = value; RaisePropertyChanged(() => ImportExportSingleAllowed); }
+        }
+
         public double AvgPower
         {
             get { return _avgPower; }
@@ -42,36 +135,223 @@ namespace CP.ViewModel
         #endregion
 
         #region commands
-        public ICommand OrderByCommand { get; private set; }
-
         void InitializeComands()
         {
             OrderByCommand = new RelayCommand(OrderBy);
+            ImportAllCommand = new RelayCommand(ImportAll);
+            ExportAllCommand = new RelayCommand(ExportAll);
+            ImportSingleCommand = new RelayCommand(ImportSingle);
+            ExportSingleCommand = new RelayCommand(ExportSingle);
+            CreateNewTransportCommand = new RelayCommand(CreateNewTransport);
+            DeleteTransportCommand = new RelayCommand(DeleteTransport);
+            ShiftModelComparerCommand = new RelayCommand(
+                () =>
+                {
+                    ModelArg = new SimpleFilterArgument<string>() { Sample = ModelArg.Sample, Comparer = ShiftBinaryComparer(ModelArg.Comparer) };
+                }
+                );
+            //binary comparer
+            ShiftEngineTypeCommand = new RelayCommand(
+                () =>
+                {
+                    EngineTypeArg = new SimpleFilterArgument<EEngineType>() { Sample = EngineTypeArg.Sample, Comparer = ShiftBinaryComparer(EngineTypeArg.Comparer) };
+                }
+                );
+            ShiftPowerComparerCommand = new RelayCommand(
+                () =>
+                {
+                    EnginePowerArg = new SimpleFilterArgument<int>() { Sample = EnginePowerArg.Sample, Comparer = ShiftComparer(EnginePowerArg.Comparer) };
+                }
+                );
+            ShiftAxlesComparerCommand = new RelayCommand(
+                ()=>
+                {
+                    AxlesArg = new SimpleFilterArgument<int>() { Sample = AxlesArg.Sample, Comparer = ShiftComparer(AxlesArg.Comparer) };
+                }
+                );
+            ShiftCapacityComparerCommand = new RelayCommand(
+                () =>
+                {
+                    CapacityArg = new SimpleFilterArgument<int>() { Sample = CapacityArg.Sample, Comparer = ShiftComparer(CapacityArg.Comparer) };
+                }
+                );
+            ShiftSeatsComparerCommand = new RelayCommand(
+                () =>
+                {
+                    SeatsArg = new SimpleFilterArgument<int>() { Sample = SeatsArg.Sample, Comparer = ShiftComparer(SeatsArg.Comparer) };
+                }
+                );
+            ShiftDoorsComparerCommand = new RelayCommand(
+                () =>
+                {
+                    DoorsArg = new SimpleFilterArgument<int>() { Sample = DoorsArg.Sample, Comparer = ShiftComparer(DoorsArg.Comparer) };
+                }
+                );
+            ShiftStandRoomComparerCommand = new RelayCommand(
+                () =>
+                {
+                    StandsArg = new SimpleFilterArgument<int>() { Sample = StandsArg.Sample, Comparer = ShiftComparer(StandsArg.Comparer) };
+                }
+                );
+            ShiftClearanceComparerCommand = new RelayCommand(
+                () =>
+                {
+                    LowClearanceArg = new SimpleFilterArgument<bool>() { Sample = LowClearanceArg.Sample, Comparer = ShiftBinaryComparer(LowClearanceArg.Comparer) };
+                }
+                );
+            ApplyFilterCommand = new RelayCommand(ApplyFilter);
+            CancelFilterCommand = new RelayCommand(CancelFilter);
+        }
+        public ICommand OrderByCommand { get; private set; }
+        public ICommand ExportAllCommand { get; private set; }
+        public ICommand ImportAllCommand { get; private set; }
+        public ICommand CreateNewTransportCommand { get; private set; }
+        public ICommand ExportSingleCommand { get; private set; }
+        public ICommand ImportSingleCommand { get; private set; }
+        public ICommand DeleteTransportCommand { get; private set; }
+        public ICommand ApplyFilterCommand { get; private set; }
+        public ICommand CancelFilterCommand { get; private set; }
+        //IncreaseModelComparer
+        public ICommand ShiftModelComparerCommand { get; private set; }
+        public ICommand ShiftEngineTypeCommand { get; private set; }
+        public ICommand ShiftPowerComparerCommand { get; private set; }
+        public ICommand ShiftAxlesComparerCommand { get; private set; }
+
+        //ShiftCapacityComparerCommand
+        public ICommand ShiftCapacityComparerCommand { get; private set; }
+        //ShiftSeatsComparerCommand
+        public ICommand ShiftSeatsComparerCommand { get; private set; }
+        //ShiftDoorsComparerCommand
+        public ICommand ShiftDoorsComparerCommand { get; private set; }
+        //ShiftStandRoomComparerCommand
+        public ICommand ShiftStandRoomComparerCommand { get; private set; }
+        //ShiftClearanceComparerCommand
+        public ICommand ShiftClearanceComparerCommand { get; private set; }
+
+
+        void CancelFilter()
+        {
+            TransportList = RecoveryList;
+            _orderFlag = Order.None;
+            ordrBtnText = "Не впорядковано";
+        }
+        void ApplyFilter()
+        {
+            //making a backup
+            if (RecoveryList == null)
+                RecoveryList = TransportList;
+            else TransportList = RecoveryList;
+
+            _orderFlag = Order.None;
+            ordrBtnText = "Не впорядковано";
+
+            //filtering
+            List<PublicTransport> result;
+
+            result = _filter.ByModel(ModelArg, TransportList.ToList());//_ft.ByModel
+
+            result = _filter.ByEngineType(EngineTypeArg, result);
+            result = _filter.ByEnginePower(EnginePowerArg, result);
+            result = _filter.ByAxles(AxlesArg, result);
+            result = _filter.ByDoors(DoorsArg, result);
+            result = _filter.ByCapacity(CapacityArg, result);
+            result = _filter.BySeats(SeatsArg, result);
+            result = _filter.ByStandingRoom(StandsArg, result);
+            result = _filter.ByClearance(LowClearanceArg, result);
+
+            TransportList = new ObservableCollection<PublicTransport>(result);
+        }
+
+        void ImportSingle()
+        {
+            SelectedItem = _dataService.ImportSingle(SelectedItem);
+            TransportList.Add(SelectedItem);
+            //CalculateAvgPower();
+        }
+        void ExportSingle()
+        {
+            _dataService.ExportSingle(SelectedItem);
+        }
+        void DeleteTransport()
+        {
+            TransportList.Remove(SelectedItem);
+        }
+        void CreateNewTransport()
+        {
+            TransportList.Add(new PublicTransport());
+            SelectedItem = TransportList.LastOrDefault();
+        }
+        void ExportAll()
+        {
+            _dataService.ExportTransportList(TransportList.ToList());
+        }
+        void ImportAll()
+        {
+            TransportList = new ObservableCollection<PublicTransport>(_dataService.ImportTransportList());
+            _orderFlag = Order.None;
+            ordrBtnText = "Не впорядковано";
+            //CalculateAvgPower();
         }
         void OrderBy()
         {
             switch(_orderFlag)
             {
                 case Order.Ascending:
-                    //RecoveryList = TransportList;
-                    _orderFlag = Order.Descending;
-                    TransportList = new ObservableCollection<PublicTransport>(TransportList.OrderByDescending(p => p.PassengerCapacity));
-                    ordrBtnText = "9 > 0";
+                    
+                    try
+                    {
+                        TransportList = new ObservableCollection<PublicTransport>(TransportList.OrderByDescending(p => p.PassengerCapacity));
+                        _orderFlag = Order.Descending;
+                        ordrBtnText = "9 > 0";
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Детальна інформація: \n\r" + ex.Message, "Нажаль, сталася помилка!");
+                    }
                     break;
                 case Order.Descending:
-                    TransportList = RecoveryList;
-                    _orderFlag = Order.None;
-                    ordrBtnText = "Не впорядковано";
-                    break;
+                    try
+                    {
+                        TransportList = RecoveryList;
+                        _orderFlag = Order.None;
+                        ordrBtnText = "Не впорядковано";
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Детальна інформація: \n\r" + ex.Message, "Нажаль, сталася помилка!");
+                    }
+            break;
                 default:
-                    RecoveryList = TransportList;
-                    TransportList = new ObservableCollection<PublicTransport>(TransportList.OrderBy(p => p.PassengerCapacity));// TransportList.OrderBy(p => p.PassengerCapacity) as ObservableCollection<PublicTransport>;
-                    _orderFlag = Order.Ascending;
-                    ordrBtnText = "0 > 9";
-                    break;
+                    try
+                    {
+                        RecoveryList = TransportList;
+                        TransportList = new ObservableCollection<PublicTransport>(TransportList.OrderBy(p => p.PassengerCapacity));// TransportList.OrderBy(p => p.PassengerCapacity) as ObservableCollection<PublicTransport>;
+                        _orderFlag = Order.Ascending;
+                        ordrBtnText = "0 > 9";
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Детальна інформація: \n\r" + ex.Message, "Нажаль, сталася помилка!");
+                    }
+            break;
             }
         }
-
+        void IncreaseModelComparer()
+        {
+            //MessageBox.Show(ModelArg.Comparer.ToString());
+            if (ModelArg.Comparer == 0) ModelArg = new SimpleFilterArgument<string>() { Sample = ModelArg.Sample, Comparer = (SimpleComparer)3 };
+            else ModelArg = new SimpleFilterArgument<string>() { Sample = ModelArg.Sample, Comparer = (SimpleComparer)0 };
+        }
+        SimpleComparer ShiftComparer(SimpleComparer a)
+        {
+            if ((int)a == 5) return 0;
+            else return ++a;
+        }
+        SimpleComparer ShiftBinaryComparer(SimpleComparer a)
+        {
+            if ((int)a == 0) { a = (SimpleComparer)3; return a; }
+            else return 0;
+        }
         #endregion
 
         private ObservableCollection<PublicTransport> _vehicles;
@@ -81,7 +361,7 @@ namespace CP.ViewModel
         public ObservableCollection<PublicTransport> TransportList
         {
             get { return _vehicles; }
-            set { _vehicles = value; RaisePropertyChanged(() => TransportList); }
+            set { _vehicles = value; RaisePropertyChanged(() => TransportList); CalculateAvgPower(); }
         }
 
 
@@ -90,48 +370,23 @@ namespace CP.ViewModel
         /// </summary>
         public MainViewModel()
         {
+            TransportList = new ObservableCollection<PublicTransport>();
             _dataService = new DataService();
-
-            //TransportList = new ObservableCollection<PublicTransport>();
-            //TransportList = _dataService.GetTrasportList();
             InitializeComands();
-            //_dataService = dataService;
-            _dataService.GetTrasportList(
-                (list, error) =>
-                {
-                    if (error != null)
-                    {
-                        // Report error here
-                        return;
-                    }
-
-                    TransportList = new ObservableCollection<PublicTransport>(list);// (ObservableCollection<PublicTransport>)list;//item.Title;
-                    CalculateAvgPower();
-                });
-
-            //var fm = new FileManager();
-            //var json = fm.ReadFromFile(Constants.DefaultFilePath);
-            //var vc = JsonHelper.Deserealize<List<PublicTransport>>(json);
-
-
-            //MessageBox.Show(v.ToString());
-            //v.LoadFromFile();//.SaveToFile();
-            //MessageBox.Show(v.ToString());
-            //TransportList.Add(v);
+            InitializeFilterParams();
         }
-
-        ////public override void Cleanup()
-        ////{
-        ////    // Clean up if needed
-
-        ////    base.Cleanup();
-        ////}
+        
         #region private members
-        void CalculateAvgPower()
+        public void CalculateAvgPower()
         {
-            AvgPower = TransportList.Average(p => p.EnginePower);
+            try { AvgPower = TransportList.Average(p => p.EnginePower); }
+            catch (Exception ex)
+            {
+                //MessageBox.Show("Error during calculating avg value! \r\nAdditional info:\r\n" + ex.Message, Constants.DefaultErrorHeader);
+            }
         }
         #endregion
 
     }
 }
+//text unit 19

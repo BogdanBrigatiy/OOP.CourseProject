@@ -45,7 +45,7 @@ namespace CP.Model
 
         }
 
-        public PublicTransport(VModel model,
+        public PublicTransport(string model,
             EEngineType eType,
             int power,
             int axles,
@@ -72,19 +72,20 @@ namespace CP.Model
         #endregion
 
         #region public members
-        public bool SaveToFile()
+        public bool SaveToFile(string filepath)
         {
             var fm = new FileManager();
             //var list = 
-            return fm.WriteToFile(JsonHelper.Serialize(this), Constants.DefaultFilePath);
+            return fm.WriteToFile(JsonHelper.Serialize(this), filepath);
             //return true;
         }
-        public void LoadFromFile()
+        public bool LoadFromFile(string filepath)
         {
+            var flag = true;
             var fm = new FileManager();
             try
             {
-                var newInstance = (PublicTransport)JsonHelper.Deserealize<PublicTransport>(fm.ReadFromFile(Constants.DefaultFilePath)).Clone();
+                var newInstance = (PublicTransport)JsonHelper.Deserealize<PublicTransport>(fm.ReadFromFile(filepath)).Clone();
                 Model = newInstance.Model;
                 EngineType = newInstance.EngineType;
                 Axles = newInstance.Axles;
@@ -96,8 +97,10 @@ namespace CP.Model
             }
             catch (Exception ex)
             {
+                flag = false;
                 MessageBox.Show(ex.Message, "An error occured!");
-            }            
+            }
+            return flag;
         }
         public override string ToString()
         {

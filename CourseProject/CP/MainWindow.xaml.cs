@@ -30,7 +30,12 @@ namespace CP
 
         private void GridViewColumn_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            MessageBox.Show("sdssdds");
+            //MessageBox.Show("sdssdds");
+        }
+
+        private void textBox_Copy1_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            ViewModel.ViewModelLocator.Main.CalculateAvgPower();
         }
     }
 }

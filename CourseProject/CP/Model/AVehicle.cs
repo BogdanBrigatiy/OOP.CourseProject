@@ -7,17 +7,10 @@ using System.Threading.Tasks;
 
 namespace CP.Model
 {
-    public enum VModel
-    {
-        Tram,
-        Trolleybus,
-        Bus,
-        Taxi
-    }
     public abstract class AVehicle : BaseNotifyingModel
     {
         private int _axles;
-        private VModel _model;
+        private string _model;
         private EEngineType _engineType;
 
         public int Axles
@@ -25,7 +18,7 @@ namespace CP.Model
             get { return _axles; }
             set { _axles = value; OnPropertyChanged("Axles"); }
         }
-        public VModel Model
+        public string Model
         {
             get { return _model; }
             set { _model = value; OnPropertyChanged("Model"); }
