@@ -1,5 +1,6 @@
 ﻿using CP.Core;
 using System;
+using System.Text;
 using System.Windows;
 
 namespace CP.Model
@@ -76,7 +77,7 @@ namespace CP.Model
         {
             var fm = new FileManager();
             //var list = 
-            return fm.WriteToFile(JsonHelper.Serialize(this), filepath);
+            return fm.WriteToFile(JsonHelper.Serialize(this), filepath, Encoding.UTF8);
             //return true;
         }
         public bool LoadFromFile(string filepath)
@@ -85,7 +86,7 @@ namespace CP.Model
             var fm = new FileManager();
             try
             {
-                var newInstance = (PublicTransport)JsonHelper.Deserealize<PublicTransport>(fm.ReadFromFile(filepath)).Clone();
+                var newInstance = (PublicTransport)JsonHelper.Deserealize<PublicTransport>(fm.ReadFromFile(filepath, Encoding.UTF8)).Clone();
                 Model = newInstance.Model;
                 EngineType = newInstance.EngineType;
                 Axles = newInstance.Axles;

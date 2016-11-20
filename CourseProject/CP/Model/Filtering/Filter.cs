@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CP.Model.Filtering
 {
@@ -14,27 +15,34 @@ namespace CP.Model.Filtering
         public List<PublicTransport> ByEnginePower(SimpleFilterArgument<int> arg, List<PublicTransport> collection)
         {
             List<PublicTransport> result;
-
-            switch(arg.Comparer)
+            try
             {
-                case SimpleComparer.Equal:
-                    result = collection.FindAll(p => p.EnginePower == arg.Sample);
-                    break;
-                case SimpleComparer.Bigger:
-                    result = collection.FindAll(p => p.EnginePower > arg.Sample);
-                    break;
-                case SimpleComparer.Smaller:
-                    result = collection.FindAll(p => p.EnginePower < arg.Sample);
-                    break;
-                case SimpleComparer.NotBigger:
-                    result = collection.FindAll(p => p.EnginePower <= arg.Sample);
-                    break;
-                case SimpleComparer.NotSmaller:
-                    result = collection.FindAll(p => p.EnginePower >= arg.Sample);
-                    break;
-                default:
-                    result = collection;
-                    break;
+                switch (arg.Comparer)
+                {
+                    case SimpleComparer.Equal:
+                        result = collection.FindAll(p => p.EnginePower == arg.Sample);//.Take(takeValue).ToList(); //takeValue
+                        break;
+                    case SimpleComparer.Bigger:
+                        result = collection.FindAll(p => p.EnginePower > arg.Sample);//.Take(takeValue).ToList();
+                        break;
+                    case SimpleComparer.Smaller:
+                        result = collection.FindAll(p => p.EnginePower < arg.Sample);//.Take(takeValue).ToList();
+                        break;
+                    case SimpleComparer.NotBigger:
+                        result = collection.FindAll(p => p.EnginePower <= arg.Sample);//.Take(takeValue).ToList();
+                        break;
+                    case SimpleComparer.NotSmaller:
+                        result = collection.FindAll(p => p.EnginePower >= arg.Sample);//.Take(takeValue).ToList();
+                        break;
+                    default:
+                        result = collection;//.Take(takeValue).ToList(); ;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occured:\r\n" + ex.Message, Constants.DefaultErrorHeader);
+                result = new List<PublicTransport>();
             }
 
             return result;
@@ -43,54 +51,70 @@ namespace CP.Model.Filtering
         {
             List<PublicTransport> result;// = new List<PublicTransport>();
 
-            switch (arg.Comparer)
+            try
             {
-                case SimpleComparer.Equal:
-                    result = collection.FindAll(p => p.Seats == arg.Sample);
-                    break;
-                case SimpleComparer.Bigger:
-                    result = collection.FindAll(p => p.Seats > arg.Sample);
-                    break;
-                case SimpleComparer.Smaller:
-                    result = collection.FindAll(p => p.Seats < arg.Sample);
-                    break;
-                case SimpleComparer.NotBigger:
-                    result = collection.FindAll(p => p.Seats <= arg.Sample);
-                    break;
-                case SimpleComparer.NotSmaller:
-                    result = collection.FindAll(p => p.Seats >= arg.Sample);
-                    break;
-                default:
-                    result = collection;
-                    break;
+                switch (arg.Comparer)
+                {
+                    case SimpleComparer.Equal:
+                        result = collection.FindAll(p => p.Seats == arg.Sample);
+                        break;
+                    case SimpleComparer.Bigger:
+                        result = collection.FindAll(p => p.Seats > arg.Sample);
+                        break;
+                    case SimpleComparer.Smaller:
+                        result = collection.FindAll(p => p.Seats < arg.Sample);
+                        break;
+                    case SimpleComparer.NotBigger:
+                        result = collection.FindAll(p => p.Seats <= arg.Sample);
+                        break;
+                    case SimpleComparer.NotSmaller:
+                        result = collection.FindAll(p => p.Seats >= arg.Sample);
+                        break;
+                    default:
+                        result = collection;
+                        break;
+                }
             }
-
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occured:\r\n" + ex.Message, Constants.DefaultErrorHeader);
+                result = new List<PublicTransport>();
+            }
             return result;
         }
         public List<PublicTransport> ByAxles(SimpleFilterArgument<int> arg, List<PublicTransport> collection)
         {
             List<PublicTransport> result;// = new List<PublicTransport>();
 
-            switch (arg.Comparer)
+            try
             {
-                case SimpleComparer.Equal:
-                    result = collection.FindAll(p => p.Axles == arg.Sample);
-                    break;
-                case SimpleComparer.Bigger:
-                    result = collection.FindAll(p => p.Axles > arg.Sample);
-                    break;
-                case SimpleComparer.Smaller:
-                    result = collection.FindAll(p => p.Axles < arg.Sample);
-                    break;
-                case SimpleComparer.NotBigger:
-                    result = collection.FindAll(p => p.Axles <= arg.Sample);
-                    break;
-                case SimpleComparer.NotSmaller:
-                    result = collection.FindAll(p => p.Axles >= arg.Sample);
-                    break;
-                default:
-                    result = collection;
-                    break;
+                switch (arg.Comparer)
+                {
+                    case SimpleComparer.Equal:
+                        result = collection.FindAll(p => p.Axles == arg.Sample);
+                        break;
+                    case SimpleComparer.Bigger:
+                        result = collection.FindAll(p => p.Axles > arg.Sample);
+                        break;
+                    case SimpleComparer.Smaller:
+                        result = collection.FindAll(p => p.Axles < arg.Sample);
+                        break;
+                    case SimpleComparer.NotBigger:
+                        result = collection.FindAll(p => p.Axles <= arg.Sample);
+                        break;
+                    case SimpleComparer.NotSmaller:
+                        result = collection.FindAll(p => p.Axles >= arg.Sample);
+                        break;
+                    default:
+                        result = collection;
+                        break;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occured:\r\n" + ex.Message, Constants.DefaultErrorHeader);
+                result = new List<PublicTransport>();
             }
 
             return result;
@@ -98,43 +122,58 @@ namespace CP.Model.Filtering
         public List<PublicTransport> ByClearance(SimpleFilterArgument<bool> arg, List<PublicTransport> collection)
         {
             List<PublicTransport> result;
-
-            switch (arg.Comparer)
+            try
             {
-                case SimpleComparer.Equal:
-                    result = collection.FindAll(p => p.LowClearance == arg.Sample);
-                    break;
-                default:
-                    result = collection;
-                    break;
+                switch (arg.Comparer)
+                {
+                    case SimpleComparer.Equal:
+                        result = collection.FindAll(p => p.LowClearance == arg.Sample);
+                        break;
+                    default:
+                        result = collection;
+                        break;
+                }
             }
-            
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occured:\r\n" + ex.Message, Constants.DefaultErrorHeader);
+                result = new List<PublicTransport>();
+            }
+
             return result;
         }
         public List<PublicTransport> ByDoors(SimpleFilterArgument<int> arg, List<PublicTransport> collection)
         {
             List<PublicTransport> result;// = new List<PublicTransport>();
 
-            switch (arg.Comparer)
+            try
             {
-                case SimpleComparer.Equal:
-                    result = collection.FindAll(p => p.Doors == arg.Sample);
-                    break;
-                case SimpleComparer.Bigger:
-                    result = collection.FindAll(p => p.Doors > arg.Sample);
-                    break;
-                case SimpleComparer.Smaller:
-                    result = collection.FindAll(p => p.Doors < arg.Sample);
-                    break;
-                case SimpleComparer.NotBigger:
-                    result = collection.FindAll(p => p.Doors <= arg.Sample);
-                    break;
-                case SimpleComparer.NotSmaller:
-                    result = collection.FindAll(p => p.Doors >= arg.Sample);
-                    break;
-                default:
-                    result = collection;
-                    break;
+                switch (arg.Comparer)
+                {
+                    case SimpleComparer.Equal:
+                        result = collection.FindAll(p => p.Doors == arg.Sample);
+                        break;
+                    case SimpleComparer.Bigger:
+                        result = collection.FindAll(p => p.Doors > arg.Sample);
+                        break;
+                    case SimpleComparer.Smaller:
+                        result = collection.FindAll(p => p.Doors < arg.Sample);
+                        break;
+                    case SimpleComparer.NotBigger:
+                        result = collection.FindAll(p => p.Doors <= arg.Sample);
+                        break;
+                    case SimpleComparer.NotSmaller:
+                        result = collection.FindAll(p => p.Doors >= arg.Sample);
+                        break;
+                    default:
+                        result = collection;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occured:\r\n" + ex.Message, Constants.DefaultErrorHeader);
+                result = new List<PublicTransport>();
             }
 
             return result;
@@ -144,26 +183,34 @@ namespace CP.Model.Filtering
         {
             List<PublicTransport> result;// = new List<PublicTransport>();
 
-            switch (arg.Comparer)
+            try
             {
-                case SimpleComparer.Equal:
-                    result = collection.FindAll(p => p.PassengerCapacity - p.Seats == arg.Sample);
-                    break;
-                case SimpleComparer.Bigger:
-                    result = collection.FindAll(p => p.PassengerCapacity - p.Seats > arg.Sample);
-                    break;
-                case SimpleComparer.Smaller:
-                    result = collection.FindAll(p => p.PassengerCapacity - p.Seats < arg.Sample);
-                    break;
-                case SimpleComparer.NotBigger:
-                    result = collection.FindAll(p => p.PassengerCapacity - p.Seats <= arg.Sample);
-                    break;
-                case SimpleComparer.NotSmaller:
-                    result = collection.FindAll(p => p.PassengerCapacity - p.Seats >= arg.Sample);
-                    break;
-                default:
-                    result = collection;
-                    break;
+                switch (arg.Comparer)
+                {
+                    case SimpleComparer.Equal:
+                        result = collection.FindAll(p => p.PassengerCapacity - p.Seats == arg.Sample);
+                        break;
+                    case SimpleComparer.Bigger:
+                        result = collection.FindAll(p => p.PassengerCapacity - p.Seats > arg.Sample);
+                        break;
+                    case SimpleComparer.Smaller:
+                        result = collection.FindAll(p => p.PassengerCapacity - p.Seats < arg.Sample);
+                        break;
+                    case SimpleComparer.NotBigger:
+                        result = collection.FindAll(p => p.PassengerCapacity - p.Seats <= arg.Sample);
+                        break;
+                    case SimpleComparer.NotSmaller:
+                        result = collection.FindAll(p => p.PassengerCapacity - p.Seats >= arg.Sample);
+                        break;
+                    default:
+                        result = collection;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occured:\r\n" + ex.Message, Constants.DefaultErrorHeader);
+                result = new List<PublicTransport>();
             }
 
             return result;
@@ -172,15 +219,23 @@ namespace CP.Model.Filtering
         {
             List<PublicTransport> result;
 
-            switch (arg.Comparer)
+            try
             {
-                case SimpleComparer.Equal:
-                    if (arg.Sample == string.Empty || arg.Sample == null) return collection.FindAll(p => p.Model == null);
-                    result = collection.FindAll(p => p.Model!=null && p.Model.ToLower().Contains(arg.Sample.ToLower()));
-                    break;
-                default:
-                    result = collection;
-                    break;
+                switch (arg.Comparer)
+                {
+                    case SimpleComparer.Equal:
+                        if (arg.Sample == string.Empty || arg.Sample == null) return collection.FindAll(p => p.Model == null);
+                        result = collection.FindAll(p => p.Model != null && p.Model.ToLower().Contains(arg.Sample.ToLower()));
+                        break;
+                    default:
+                        result = collection;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occured:\r\n" + ex.Message, Constants.DefaultErrorHeader);
+                result = new List<PublicTransport>();
             }
 
             return result;
@@ -189,14 +244,22 @@ namespace CP.Model.Filtering
         {
             List<PublicTransport> result;
 
-            switch (arg.Comparer)
+            try
             {
-                case SimpleComparer.Equal:
-                    result = collection.FindAll(p => p.EngineType == arg.Sample);
-                    break;
-                default:
-                    result = collection;
-                    break;
+                switch (arg.Comparer)
+                {
+                    case SimpleComparer.Equal:
+                        result = collection.FindAll(p => p.EngineType == arg.Sample);
+                        break;
+                    default:
+                        result = collection;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occured:\r\n" + ex.Message, Constants.DefaultErrorHeader);
+                result = new List<PublicTransport>();
             }
 
             return result;
@@ -205,26 +268,34 @@ namespace CP.Model.Filtering
         {
             List<PublicTransport> result;
 
-            switch (arg.Comparer)
+            try
             {
-                case SimpleComparer.Equal:
-                    result = collection.FindAll(p => p.PassengerCapacity == arg.Sample);
-                    break;
-                case SimpleComparer.Bigger:
-                    result = collection.FindAll(p => p.PassengerCapacity > arg.Sample);
-                    break;
-                case SimpleComparer.Smaller:
-                    result = collection.FindAll(p => p.PassengerCapacity < arg.Sample);
-                    break;
-                case SimpleComparer.NotBigger:
-                    result = collection.FindAll(p => p.PassengerCapacity <= arg.Sample);
-                    break;
-                case SimpleComparer.NotSmaller:
-                    result = collection.FindAll(p => p.PassengerCapacity >= arg.Sample);
-                    break;
-                default:
-                    result = collection;
-                    break;
+                switch (arg.Comparer)
+                {
+                    case SimpleComparer.Equal:
+                        result = collection.FindAll(p => p.PassengerCapacity == arg.Sample);
+                        break;
+                    case SimpleComparer.Bigger:
+                        result = collection.FindAll(p => p.PassengerCapacity > arg.Sample);
+                        break;
+                    case SimpleComparer.Smaller:
+                        result = collection.FindAll(p => p.PassengerCapacity < arg.Sample);
+                        break;
+                    case SimpleComparer.NotBigger:
+                        result = collection.FindAll(p => p.PassengerCapacity <= arg.Sample);
+                        break;
+                    case SimpleComparer.NotSmaller:
+                        result = collection.FindAll(p => p.PassengerCapacity >= arg.Sample);
+                        break;
+                    default:
+                        result = collection;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occured:\r\n" + ex.Message, Constants.DefaultErrorHeader);
+                result = new List<PublicTransport>();
             }
 
             return result;

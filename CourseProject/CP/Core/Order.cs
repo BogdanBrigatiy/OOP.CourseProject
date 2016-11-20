@@ -12,4 +12,5 @@ namespace CP.Core
         Ascending,
         Descending
     }
+
 }

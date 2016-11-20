@@ -21,6 +21,9 @@
                     <Converters:NullToBoolConverter x:Key="NullToBoolConverter" />
                     <Converters:ListLengthToBoolConverter x:Key="ListLengthToBoolConverter" />
                     <Converters:ComparerToStringConverter x:Key="ComparerToStringConverter" />
+                    <Converters:ZeroToMsgConverter x:Key="ZeroToMsgConverter" />
+
+
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -83,30 +86,14 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <TextBlock
-            x:Name="textBlock"
-            Grid.Column="1"
-            Margin="8,35,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Text="За пасажиромісткістю"
-            TextWrapping="Wrap" />
+        <!--  Command="{Binding OrderByCommand}"  -->
+        <!--  Content="{Binding ordrBtnText, Mode=TwoWay}"  -->
+        <!--  IsEnabled="{Binding TransportList.Count, Converter={StaticResource ResourceKey=ListLengthToBoolConverter}}"  -->
 
-        <Button
-            x:Name="button"
-            Grid.Column="1"
-            Width="105"
-            Margin="194,33,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Background="Transparent"
-            Command="{Binding OrderByCommand}"
-            Content="{Binding ordrBtnText, Mode=TwoWay}"
-            IsEnabled="{Binding TransportList.Count, Converter={StaticResource ResourceKey=ListLengthToBoolConverter}}" />
         <TextBlock
             x:Name="textBlock1"
             Grid.Column="1"
-            Margin="9,10,0,0"
+            Margin="9,5,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="Робота з даними"
@@ -123,13 +110,13 @@
             Grid.Column="1"
             Width="319"
             Height="1"
-            Margin="0,31,0,0"
+            Margin="0,20,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top" />
         <TextBlock
             x:Name="textBlock_Copy"
             Grid.Column="1"
-            Margin="10,58,0,0"
+            Margin="10,33,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="Середня потужність двигунів: "
@@ -137,7 +124,7 @@
         <TextBlock
             x:Name="textBlock_Copy1"
             Grid.Column="1"
-            Margin="256,58,0,0"
+            Margin="259,33,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="{Binding AvgPower, StringFormat=\{0:0.00\} к.с.}"
@@ -193,6 +180,7 @@
             VerticalAlignment="Top"
             Keyboard.KeyDown="textBox_Copy1_KeyDown"
             Keyboard.KeyUp="textBox_Copy1_KeyDown"
+            Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
             Text="{Binding SelectedItem.EnginePower, UpdateSourceTrigger=PropertyChanged}"
             TextWrapping="Wrap" />
         <TextBlock
@@ -223,6 +211,7 @@
             Margin="280,477,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
             Text="{Binding SelectedItem.Axles, UpdateSourceTrigger=PropertyChanged}"
             TextWrapping="Wrap" />
         <TextBlock
@@ -240,6 +229,7 @@
             Margin="340,477,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
             Text="{Binding SelectedItem.PassengerCapacity, UpdateSourceTrigger=PropertyChanged}"
             TextWrapping="Wrap" />
         <TextBlock
@@ -257,6 +247,7 @@
             Margin="416,477,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
             Text="{Binding SelectedItem.Seats, UpdateSourceTrigger=PropertyChanged}"
             TextWrapping="Wrap" />
         <TextBlock
@@ -274,6 +265,7 @@
             Margin="476,477,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
             Text="{Binding SelectedItem.Doors, UpdateSourceTrigger=PropertyChanged}"
             TextWrapping="Wrap" />
         <TextBlock
@@ -340,7 +332,7 @@
         <TextBlock
             x:Name="textBlock4"
             Grid.Column="1"
-            Margin="144,79,0,0"
+            Margin="144,64,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="Пошук"
@@ -350,7 +342,7 @@
             Grid.Column="1"
             Width="146"
             Height="20"
-            Margin="10,113,0,0"
+            Margin="119,84,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="{Binding ModelArg.Sample}"
@@ -358,7 +350,7 @@
         <TextBlock
             x:Name="textBlock4_Copy"
             Grid.Column="1"
-            Margin="10,97,0,0"
+            Margin="10,84,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="Марка"
@@ -366,7 +358,7 @@
         <TextBlock
             x:Name="textBlock4_Copy1"
             Grid.Column="1"
-            Margin="10,138,0,0"
+            Margin="10,113,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="Двигун"
@@ -376,16 +368,17 @@
             Grid.Column="1"
             Width="146"
             Height="20"
-            Margin="9,195,0,0"
+            Margin="119,143,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
             Text="{Binding EnginePowerArg.Sample}"
             TextWrapping="Wrap" />
         <Button
             x:Name="button3_Copy1"
             Grid.Column="1"
             Width="32"
-            Margin="161,195,0,0"
+            Margin="271,143,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
@@ -394,26 +387,27 @@
         <TextBlock
             x:Name="textBlock4_Copy2"
             Grid.Column="1"
-            Margin="9,179,0,0"
+            Margin="10,147,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Text="Потужність двигуна"
+            Text="Потужність"
             TextWrapping="Wrap" />
         <TextBox
             x:Name="textBox1_Copy2"
             Grid.Column="1"
             Width="146"
             Height="20"
-            Margin="9,238,0,0"
+            Margin="120,171,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
             Text="{Binding AxlesArg.Sample}"
             TextWrapping="Wrap" />
         <Button
             x:Name="button3_Copy"
             Grid.Column="1"
             Width="32"
-            Margin="160,238,0,0"
+            Margin="271,171,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
@@ -422,7 +416,7 @@
         <TextBlock
             x:Name="textBlock4_Copy3"
             Grid.Column="1"
-            Margin="9,220,0,0"
+            Margin="9,173,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="Кількість осей"
@@ -432,16 +426,17 @@
             Grid.Column="1"
             Width="146"
             Height="20"
-            Margin="10,281,0,0"
+            Margin="120,199,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
             Text="{Binding CapacityArg.Sample}"
             TextWrapping="Wrap" />
         <Button
             x:Name="button3_Copy2"
             Grid.Column="1"
             Width="32"
-            Margin="161,281,0,0"
+            Margin="271,199,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
@@ -450,7 +445,7 @@
         <TextBlock
             x:Name="textBlock4_Copy4"
             Grid.Column="1"
-            Margin="10,263,0,0"
+            Margin="10,199,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="Пасажиромісткість"
@@ -460,16 +455,17 @@
             Grid.Column="1"
             Width="146"
             Height="20"
-            Margin="10,324,0,0"
+            Margin="121,226,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
             Text="{Binding SeatsArg.Sample}"
             TextWrapping="Wrap" />
         <Button
             x:Name="button3_Copy3"
             Grid.Column="1"
             Width="32"
-            Margin="161,324,0,0"
+            Margin="272,226,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
@@ -478,7 +474,7 @@
         <TextBlock
             x:Name="textBlock4_Copy5"
             Grid.Column="1"
-            Margin="10,306,0,0"
+            Margin="12,225,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="Сидінь"
@@ -488,7 +484,7 @@
             Grid.Column="1"
             Width="146"
             Height="20"
-            Margin="10,154,0,0"
+            Margin="119,114,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             SelectedItem="{Binding EngineTypeArg.Sample}">
@@ -502,16 +498,17 @@
             Grid.Column="1"
             Width="146"
             Height="20"
-            Margin="10,367,0,0"
+            Margin="121,252,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
             Text="{Binding DoorsArg.Sample}"
             TextWrapping="Wrap" />
         <Button
             x:Name="button3_Copy4"
             Grid.Column="1"
             Width="32"
-            Margin="161,367,0,0"
+            Margin="272,252,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
@@ -520,7 +517,7 @@
         <TextBlock
             x:Name="textBlock4_Copy6"
             Grid.Column="1"
-            Margin="10,349,0,0"
+            Margin="13,251,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="Дверей"
@@ -530,16 +527,17 @@
             Grid.Column="1"
             Width="146"
             Height="20"
-            Margin="10,411,0,0"
+            Margin="121,278,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
             Text="{Binding StandsArg.Sample}"
             TextWrapping="Wrap" />
         <Button
             x:Name="button3_Copy5"
             Grid.Column="1"
             Width="32"
-            Margin="161,411,0,0"
+            Margin="272,278,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
@@ -548,7 +546,7 @@
         <TextBlock
             x:Name="textBlock4_Copy7"
             Grid.Column="1"
-            Margin="10,393,0,0"
+            Margin="13,277,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="Стоячих місць"
@@ -583,7 +581,7 @@
         <TextBlock
             x:Name="textBlock2_Copy7"
             Grid.Column="1"
-            Margin="10,440,0,0"
+            Margin="12,305,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             RenderTransformOrigin="0.462,0.063"
@@ -592,7 +590,7 @@
         <CheckBox
             x:Name="checkBox_Copy"
             Grid.Column="1"
-            Margin="114,440,0,0"
+            Margin="225,306,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Content="{Binding ElementName=checkBox_Copy, Path=IsChecked, Converter={StaticResource ResourceKey=BoolToYesNoUkrConverter}}"
@@ -602,14 +600,14 @@
             Grid.Column="1"
             Width="319"
             Height="1"
-            Margin="0,78,0,0"
+            Margin="0,63,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top" />
         <Button
             x:Name="button3"
             Grid.Column="1"
             Width="104"
-            Margin="40,465,0,0"
+            Margin="53,343,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
@@ -619,7 +617,7 @@
             x:Name="button3_Copy6"
             Grid.Column="1"
             Width="104"
-            Margin="150,465,0,0"
+            Margin="163,343,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
@@ -629,7 +627,7 @@
             x:Name="button3_Copy7"
             Grid.Column="1"
             Width="32"
-            Margin="161,113,0,0"
+            Margin="270,84,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
@@ -639,7 +637,7 @@
             x:Name="button3_Copy8"
             Grid.Column="1"
             Width="32"
-            Margin="161,154,0,0"
+            Margin="270,114,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
@@ -649,7 +647,7 @@
             x:Name="button3_Copy9"
             Grid.Column="1"
             Width="32"
-            Margin="161,437,0,0"
+            Margin="272,303,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
@@ -658,12 +656,117 @@
         <TextBlock
             x:Name="textBlock2_Copy8"
             Grid.Column="1"
-            Margin="10,490,0,0"
+            Margin="10,375,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             RenderTransformOrigin="0.462,0.063"
             Text="* параметр [x] не активний в фільтрі"
             TextWrapping="Wrap" />
+        <ComboBox
+            x:Name="comboBox2"
+            Grid.Column="1"
+            Width="111"
+            Margin="121,450,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            SelectedItem="{Binding OrderByFlag}">
+            <Model:eOrderBy>None</Model:eOrderBy>
+            <Model:eOrderBy>Model</Model:eOrderBy>
+            <Model:eOrderBy>EngineType</Model:eOrderBy>
+            <Model:eOrderBy>EnginePower</Model:eOrderBy>
+            <Model:eOrderBy>Axles</Model:eOrderBy>
+            <Model:eOrderBy>Doors</Model:eOrderBy>
+            <Model:eOrderBy>PassengerCapacity</Model:eOrderBy>
+            <Model:eOrderBy>Seats</Model:eOrderBy>
+            <Model:eOrderBy>LowClearance</Model:eOrderBy>
+        </ComboBox>
+        <TextBlock
+            x:Name="textBlock2_Copy9"
+            Grid.Column="1"
+            Margin="10,453,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            RenderTransformOrigin="0.462,0.063"
+            Text="Впорядкувати за"
+            TextWrapping="Wrap" />
+        <TextBlock
+            x:Name="textBlock5"
+            Grid.Column="1"
+            Margin="12,425,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="Вибрати"
+            TextWrapping="Wrap" />
+        <TextBox
+            x:Name="textBox2"
+            Grid.Column="1"
+            Width="131"
+            Height="20"
+            Margin="121,425,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
+            Text="{Binding SkipValue, Converter={StaticResource ResourceKey=ZeroToMsgConverter}}"
+            TextWrapping="Wrap" />
+        <Button
+            x:Name="button4"
+            Grid.Column="1"
+            Width="20"
+            Margin="257,425,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="{x:Null}"
+            Command="{Binding DecSkipValueCommand}"
+            Content="v"
+            IsEnabled="{Binding SkipValue, Converter={StaticResource ResourceKey=ListLengthToBoolConverter}}" />
+        <Button
+            x:Name="button4_Copy"
+            Grid.Column="1"
+            Width="20"
+            Margin="282,425,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="{x:Null}"
+            Command="{Binding IncSkipValueCommand}"
+            Content="^" />
+        <GridSplitter
+            x:Name="gridSplitter1_Copy1"
+            Grid.Column="1"
+            Width="319"
+            Height="1"
+            Margin="0,407,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top" />
+        <Button
+            x:Name="button3_Copy10"
+            Grid.Column="1"
+            Width="79"
+            Margin="225,482,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Command="{Binding CancelOrderByCommand}"
+            Content="Зкинути" />
+        <Button
+            x:Name="button3_Copy11"
+            Grid.Column="1"
+            Width="79"
+            Margin="141,482,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Command="{Binding ApplyOrderByCommand}"
+            Content="Застосувати" />
+        <Button
+            x:Name="button5"
+            Grid.Column="1"
+            Width="64"
+            Margin="237,451,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Command="{Binding ChangeOrderCommand}"
+            Content="{Binding OrderByButtonText}" />
 
 
 
