@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CP.Core
+﻿namespace CP.Core
 {
+    //клас констант
     public static class Constants
     {
         public const string DefaultFilePath = "Transports.txt";
-        public const string DefaultErrorHeader = "An error occured!";
+        public const string DefaultErrorHeader = "Сталася помилка!";
         public const string DefaultWarningHeader = "Warning!";
         public const string DefaultMessageHeader = "Attention!";
+        public const string DefaultMessageBody = "Під час виконання сталася помилка, детальна інформація:";
     }
 }

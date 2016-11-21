@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace CP.Model
 {
+    //інтерфейс провайдера даних
     public interface IDataService
     {
         void GetTrasportList(Action<List<PublicTransport>, Exception> callback);

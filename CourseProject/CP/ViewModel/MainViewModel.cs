@@ -9,7 +9,6 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using CP.Model.Filtering;
 using System;
-//using /*Main*/.Model;
 
 namespace CP.ViewModel
 {
@@ -21,34 +20,37 @@ namespace CP.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
+        //філтр та провайдер даних
         private readonly IDataService _dataService;
         private readonly Filter _filter = new Filter();
+        
         #region fields
-        //private:
-        Order _orderFlag = Order.Ascending;
-        eOrderBy _orderByFlag = eOrderBy.None;
-        string _ordrBtnCaption = "Не впорядковано";
-        double _avgPower;
-        string _orderByButtonText = "0 > 9";
+        //приватні поля
+        private Order _orderFlag = Order.Ascending;
+        private eOrderBy _orderByFlag = eOrderBy.None;
+        private string _ordrBtnCaption = "Не впорядковано";
+        private double _avgPower;
+        private string _orderByButtonText = "0 > 9";
+        private ObservableCollection<PublicTransport> _vehicles;
+        private ObservableCollection<PublicTransport> RecoveryList;
+        private ObservableCollection<PublicTransport> OrderRecoveryList;
+        private int _skipValue = 0;
+        private PublicTransport _selected;
+        private bool _impExpSAllowed = false;
 
-        int _skipValue = 0;
-        //filter parameters
-        SimpleFilterArgument<string> _modelArg;
-        SimpleFilterArgument<EEngineType> _engineTypeArg;
-        SimpleFilterArgument<int> _enginePowerArg;
-        SimpleFilterArgument<int> _axlesArg;
-        SimpleFilterArgument<int> _capacityArg;
-        SimpleFilterArgument<int> _seatsArg;
-        SimpleFilterArgument<int> _standsArg;
-        SimpleFilterArgument<bool> _lowClearanceArg;
-        SimpleFilterArgument<int> _doorsArg;
-
-        //Filter _ft = new Filter();
-        //FilterArgs _fargs = new FilterArgs();
-        PublicTransport _selected;
-        bool _impExpSAllowed = false;
+        //параметри фільтрації
+        private SimpleFilterArgument<string> _modelArg;
+        private SimpleFilterArgument<EEngineType> _engineTypeArg;
+        private SimpleFilterArgument<int> _enginePowerArg;
+        private SimpleFilterArgument<int> _axlesArg;
+        private SimpleFilterArgument<int> _capacityArg;
+        private SimpleFilterArgument<int> _seatsArg;
+        private SimpleFilterArgument<int> _standsArg;
+        private SimpleFilterArgument<bool> _lowClearanceArg;
+        private SimpleFilterArgument<int> _doorsArg;
         #endregion
 
+        //ініціалізація стартових параметрів фільтру
         void InitializeFilterParams()
         {
             ModelArg = new SimpleFilterArgument<string>() { Sample = "", Comparer = SimpleComparer.None };
@@ -63,6 +65,12 @@ namespace CP.ViewModel
         }
 
         #region properties
+        //властивості для прив'язки даних
+        public ObservableCollection<PublicTransport> TransportList
+        {
+            get { return _vehicles; }
+            set { _vehicles = value; RaisePropertyChanged(() => TransportList); CalculateAvgPower(); }
+        }
         public string OrderByButtonText
         {
             get { return _orderByButtonText; }
@@ -123,6 +131,7 @@ namespace CP.ViewModel
             get { return _lowClearanceArg; }
             set { _lowClearanceArg = value; RaisePropertyChanged(() => LowClearanceArg); }
         }
+        //виділений елемент в listview
         public PublicTransport SelectedItem
         {
             get { return _selected; }
@@ -154,6 +163,7 @@ namespace CP.ViewModel
         #endregion
 
         #region commands
+        //ініціалізація команд
         void InitializeComands()
         {
             OrderByCommand = new RelayCommand(OrderBy);
@@ -230,24 +240,19 @@ namespace CP.ViewModel
         public ICommand ShiftPowerComparerCommand { get; private set; }
         public ICommand ShiftAxlesComparerCommand { get; private set; }
 
-        //ShiftCapacityComparerCommand
         public ICommand ShiftCapacityComparerCommand { get; private set; }
-        //ShiftSeatsComparerCommand
         public ICommand ShiftSeatsComparerCommand { get; private set; }
-        //ShiftDoorsComparerCommand
         public ICommand ShiftDoorsComparerCommand { get; private set; }
-        //ShiftStandRoomComparerCommand
         public ICommand ShiftStandRoomComparerCommand { get; private set; }
-        //ShiftClearanceComparerCommand
         public ICommand ShiftClearanceComparerCommand { get; private set; }
-
         public ICommand IncSkipValueCommand { get; private set; }
         public ICommand DecSkipValueCommand { get; private set; }
-        public ICommand ApplyOrderByCommand { get; private set; } //CancelOrderByCommand
+        public ICommand ApplyOrderByCommand { get; private set; } 
         public ICommand CancelOrderByCommand { get; private set; }
+        //методи, виконувані командами
+        //застосування сортування
         void ApplyOrderBy()
         {
-
             OrderRecoveryList = TransportList;
 
             switch (OrderByFlag)
@@ -269,33 +274,29 @@ namespace CP.ViewModel
             if (SkipValue == 0) { take = TransportList.Count; }
             TransportList = new ObservableCollection<PublicTransport>(TransportList.Take(take));
         }
+        //зкидання сортування
         void CancelOrderBy()
         {
             TransportList = OrderRecoveryList;
             SkipValue = 0;
         }
+        //зкидання фільтру
         void CancelFilter()
         {
             TransportList = RecoveryList;
             _orderFlag = Order.None;
             ordrBtnText = "Не впорядковано";
         }
+        //застосування фільтру
         void ApplyFilter()
         {
-            //making a backup
             if (RecoveryList == null)
                 RecoveryList = TransportList;
-            
 
             _orderFlag = Order.None;
             ordrBtnText = "Не впорядковано";
 
-            //filtering
             List<PublicTransport> result;
-
-            //var takeValue = 0;
-            //if (SkipValue == 0) takeValue = TransportList.Count;
-            //MessageBox.Show(takeValue.ToString());
 
             result = _filter.ByModel(ModelArg, TransportList.ToList());//_ft.ByModel
 
@@ -310,93 +311,52 @@ namespace CP.ViewModel
 
             TransportList = new ObservableCollection<PublicTransport>(result);
         }
-
-        void ImportSingle()
+        //імпорт однойго екземпляру
+        void ImportSingle() 
         {
             SelectedItem = _dataService.ImportSingle(SelectedItem);
             TransportList.Add(SelectedItem);
-            //CalculateAvgPower();
         }
+        //експорт 1 екземпляру
         void ExportSingle()
         {
             _dataService.ExportSingle(SelectedItem);
         }
+        //видалення
         void DeleteTransport()
         {
             TransportList.Remove(SelectedItem);
         }
+        //створення нового
         void CreateNewTransport()
         {
             TransportList.Add(new PublicTransport());
             SelectedItem = TransportList.LastOrDefault();
         }
+        //експорт всіх
         void ExportAll()
         {
             _dataService.ExportTransportList(TransportList.ToList());
         }
+        //імпорт всіх
         void ImportAll()
         {
             TransportList = new ObservableCollection<PublicTransport>(_dataService.ImportTransportList());
             _orderFlag = Order.None;
             ordrBtnText = "Не впорядковано";
-            //CalculateAvgPower();
         }
+        //впорядкуваняя
         void OrderBy()
         {
-            switch(_orderFlag)
-            {
-                case Order.Ascending:
-                    
-                    try
-                    {
-                        TransportList = new ObservableCollection<PublicTransport>(TransportList.OrderByDescending(p => p.PassengerCapacity));
-                        _orderFlag = Order.Descending;
-                        ordrBtnText = "9 > 0";
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Детальна інформація: \n\r" + ex.Message, "Нажаль, сталася помилка!");
-                    }
-                    break;
-                case Order.Descending:
-                    try
-                    {
-                        TransportList = RecoveryList;
-                        _orderFlag = Order.None;
-                        ordrBtnText = "Не впорядковано";
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Детальна інформація: \n\r" + ex.Message, "Нажаль, сталася помилка!");
-                    }
-            break;
-                default:
-                    try
-                    {
 
-                        RecoveryList = TransportList;
-                        TransportList = new ObservableCollection<PublicTransport>(TransportList.OrderBy(p => p.PassengerCapacity));// TransportList.OrderBy(p => p.PassengerCapacity) as ObservableCollection<PublicTransport>;
-                        _orderFlag = Order.Ascending;
-                        ordrBtnText = "0 > 9";
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Детальна інформація: \n\r" + ex.Message, "Нажаль, сталася помилка!");
-                    }
-            break;
-            }
         }
-        void IncreaseModelComparer()
-        {
-            //MessageBox.Show(ModelArg.Comparer.ToString());
-            if (ModelArg.Comparer == 0) ModelArg = new SimpleFilterArgument<string>() { Sample = ModelArg.Sample, Comparer = (SimpleComparer)3 };
-            else ModelArg = new SimpleFilterArgument<string>() { Sample = ModelArg.Sample, Comparer = (SimpleComparer)0 };
-        }
+        //зміна компаратора
         SimpleComparer ShiftComparer(SimpleComparer a)
         {
             if ((int)a == 5) return 0;
             else return ++a;
         }
+        //зміна бінарного компаратора
         SimpleComparer ShiftBinaryComparer(SimpleComparer a)
         {
             if ((int)a == 0) { a = (SimpleComparer)3; return a; }
@@ -404,20 +364,11 @@ namespace CP.ViewModel
         }
         #endregion
 
-        private ObservableCollection<PublicTransport> _vehicles;
-
-        private ObservableCollection<PublicTransport> RecoveryList;
-        private ObservableCollection<PublicTransport> OrderRecoveryList;
-
-        public ObservableCollection<PublicTransport> TransportList
-        {
-            get { return _vehicles; }
-            set { _vehicles = value; RaisePropertyChanged(() => TransportList); CalculateAvgPower(); }
-        }
-
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
+        
+        //конструктор
         public MainViewModel()
         {
             TransportList = new ObservableCollection<PublicTransport>();
@@ -427,8 +378,7 @@ namespace CP.ViewModel
             OrderByFlag = eOrderBy.None;
             SkipValue = 0;
         }
-        
-        #region private members
+        //розрахунок середньої потужності
         public void CalculateAvgPower()
         {
             try { AvgPower = TransportList.Average(p => p.EnginePower); }
@@ -437,8 +387,13 @@ namespace CP.ViewModel
                 //MessageBox.Show("Error during calculating avg value! \r\nAdditional info:\r\n" + ex.Message, Constants.DefaultErrorHeader);
             }
         }
-        #endregion
-
+        public void SaveBeforeExit()
+        {
+            ExportAll();
+        }
+        ~MainViewModel()
+        {
+            //Logger.getInstance().EndLog();
+        }
     }
 }
-//text unit 19

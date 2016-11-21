@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using CP.ViewModel;
-using System.Windows.Controls;
-using System;
 using System.Windows.Input;
+using CP.Core;
 
 namespace CP
 {
@@ -17,22 +16,11 @@ namespace CP
         public MainWindow()
         {
             InitializeComponent();
-            //var gv = (GridView)listView.View;
-            //var column = gv.Columns[4];
-            //column
-            //((System.ComponentModel.INotifyPropertyChanged)column).PropertyChanged += (sender, e) =>
-            //{
-            //    if (e.PropertyName == "ActualWidth")
-            //    {
-            //        //do something here...
-            //    }
-            //};
             Closing += (s, e) => ViewModelLocator.Cleanup();
         }
 
         private void GridViewColumn_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            //MessageBox.Show("sdssdds");
         }
 
         private void textBox_Copy1_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -76,5 +64,16 @@ namespace CP
             }
         }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            switch (MessageBox.Show("Зберегти внесені зміни?", Constants.DefaultWarningHeader, MessageBoxButton.YesNoCancel))
+            {
+                case MessageBoxResult.Cancel: e.Cancel = true; break;
+                case MessageBoxResult.Yes: ViewModelLocator.Main.SaveBeforeExit(); break;
+                case MessageBoxResult.No: break;
+            }
+                
+                
+        }
     }
 }

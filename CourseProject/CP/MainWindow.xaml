@@ -10,7 +10,7 @@
     Title="Object-oriented programming course project"
     Width="964.398"
     Height="547"
-    mc:Ignorable="d ignore">
+    mc:Ignorable="d ignore" Closing="Window_Closing">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -41,8 +41,8 @@
         <ListView
             x:Name="listView"
             Width="620"
-            Height="418"
-            Margin="10,5,0,0"
+            Height="378"
+            Margin="12,128,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             ItemsSource="{Binding TransportList}"
@@ -92,8 +92,7 @@
 
         <TextBlock
             x:Name="textBlock1"
-            Grid.Column="1"
-            Margin="9,5,0,0"
+            Margin="19,4,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="Робота з даними"
@@ -107,8 +106,7 @@
             VerticalAlignment="Top" />
         <GridSplitter
             x:Name="gridSplitter1"
-            Grid.Column="1"
-            Width="319"
+            Width="635"
             Height="1"
             Margin="0,20,0,0"
             HorizontalAlignment="Left"
@@ -132,7 +130,7 @@
         <Button
             x:Name="button1"
             Width="80"
-            Margin="269,431,0,0"
+            Margin="197,29,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
@@ -142,7 +140,7 @@
         <Button
             x:Name="button1_Copy"
             Width="80"
-            Margin="354,431,0,0"
+            Margin="282,29,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
@@ -152,21 +150,21 @@
             x:Name="textBox"
             Width="95"
             Height="20"
-            Margin="20,477,0,0"
+            Margin="19,93,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="{Binding SelectedItem.Model, UpdateSourceTrigger=PropertyChanged}"
             TextWrapping="Wrap" />
         <TextBlock
             x:Name="textBlock2"
-            Margin="20,461,0,0"
+            Margin="19,77,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="Модель"
             TextWrapping="Wrap" />
         <TextBlock
             x:Name="textBlock2_Copy"
-            Margin="120,461,0,0"
+            Margin="119,77,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="Двигун"
@@ -175,7 +173,7 @@
             x:Name="textBox_Copy1"
             Width="90"
             Height="20"
-            Margin="185,477,0,0"
+            Margin="184,93,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Keyboard.KeyDown="textBox_Copy1_KeyDown"
@@ -185,7 +183,7 @@
             TextWrapping="Wrap" />
         <TextBlock
             x:Name="textBlock2_Copy1"
-            Margin="185,461,0,0"
+            Margin="184,77,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             RenderTransformOrigin="0.462,0.063"
@@ -195,7 +193,7 @@
             x:Name="comboBox"
             Width="60"
             Height="20"
-            Margin="120,477,0,0"
+            Margin="119,93,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             SelectedItem="{Binding SelectedItem.EngineType, UpdateSourceTrigger=PropertyChanged}">
@@ -208,7 +206,7 @@
             x:Name="textBox_Copy"
             Width="55"
             Height="20"
-            Margin="280,477,0,0"
+            Margin="279,93,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
@@ -216,7 +214,7 @@
             TextWrapping="Wrap" />
         <TextBlock
             x:Name="textBlock2_Copy2"
-            Margin="280,461,0,0"
+            Margin="279,77,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             RenderTransformOrigin="0.462,0.063"
@@ -226,7 +224,7 @@
             x:Name="textBox_Copy2"
             Width="70"
             Height="20"
-            Margin="340,477,0,0"
+            Margin="339,93,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
@@ -234,7 +232,7 @@
             TextWrapping="Wrap" />
         <TextBlock
             x:Name="textBlock2_Copy3"
-            Margin="340,461,0,0"
+            Margin="339,77,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             RenderTransformOrigin="0.462,0.063"
@@ -244,7 +242,7 @@
             x:Name="textBox_Copy3"
             Width="55"
             Height="20"
-            Margin="416,477,0,0"
+            Margin="415,93,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
@@ -252,7 +250,7 @@
             TextWrapping="Wrap" />
         <TextBlock
             x:Name="textBlock2_Copy4"
-            Margin="416,461,0,0"
+            Margin="415,77,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             RenderTransformOrigin="0.462,0.063"
@@ -262,7 +260,7 @@
             x:Name="textBox_Copy4"
             Width="55"
             Height="20"
-            Margin="476,477,0,0"
+            Margin="475,93,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
@@ -270,7 +268,7 @@
             TextWrapping="Wrap" />
         <TextBlock
             x:Name="textBlock2_Copy5"
-            Margin="476,461,0,0"
+            Margin="475,77,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             RenderTransformOrigin="0.462,0.063"
@@ -278,7 +276,7 @@
             TextWrapping="Wrap" />
         <TextBlock
             x:Name="textBlock2_Copy6"
-            Margin="536,461,0,0"
+            Margin="535,77,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             RenderTransformOrigin="0.462,0.063"
@@ -286,7 +284,7 @@
             TextWrapping="Wrap" />
         <CheckBox
             x:Name="checkBox"
-            Margin="540,480,0,0"
+            Margin="539,96,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Content="{Binding ElementName=checkBox, Path=IsChecked, Converter={StaticResource ResourceKey=BoolToYesNoUkrConverter}}"
@@ -294,8 +292,8 @@
 
         <Grid
             Width="620"
-            Height="80"
-            Margin="12,428,0,0"
+            Height="23"
+            Margin="9,26,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top">
 
@@ -303,25 +301,17 @@
                 x:Name="button2"
                 Width="100"
                 Height="20"
-                Margin="78,3,0,0"
+                Margin="9,3,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Background="Transparent"
                 Command="{Binding CreateNewTransportCommand}"
                 Content="Створити новий" />
-
-            <TextBlock
-                x:Name="textBlock3"
-                Margin="5,5,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Text="Редагування"
-                TextWrapping="Wrap" />
             <Button
                 x:Name="button2_Copy"
                 Width="70"
                 Height="20"
-                Margin="183,3,0,0"
+                Margin="114,3,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
                 Background="Transparent"
@@ -554,7 +544,7 @@
         <Button
             x:Name="button1_Copy3"
             Width="80"
-            Margin="465,431,0,0"
+            Margin="462,29,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
@@ -563,7 +553,7 @@
             IsEnabled="{Binding TransportList.Count, Converter={StaticResource ResourceKey=ListLengthToBoolConverter}}" />
         <TextBlock
             x:Name="textBlock1_Copy"
-            Margin="444,433,0,0"
+            Margin="441,31,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Text="Всі: "
@@ -571,7 +561,7 @@
         <Button
             x:Name="button1_Copy4"
             Width="80"
-            Margin="550,431,0,0"
+            Margin="547,29,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
@@ -767,6 +757,20 @@
             Background="Transparent"
             Command="{Binding ChangeOrderCommand}"
             Content="{Binding OrderByButtonText}" />
+        <GridSplitter
+            x:Name="gridSplitter1_Copy2"
+            Width="635"
+            Height="1"
+            Margin="0,77,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top" />
+        <TextBlock
+            x:Name="textBlock1_Copy1"
+            Margin="21,56,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="Редагування"
+            TextWrapping="Wrap" />
 
 
 

@@ -86,8 +86,8 @@
     <Compile Include="Converters\NullToBoolConverter.cs" />
     <Compile Include="Converters\BoolToYesNoUkrConverter.cs" />
     <Compile Include="Core\CampareParameters.cs" />
+    <Compile Include="Core\Logger.cs" />
     <Compile Include="Core\Order.cs" />
-    <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Core\BaseNotifyingModel.cs" />
     <Compile Include="Model\AVehicle.cs" />
     <Compile Include="Core\Constants.cs" />
@@ -98,7 +98,7 @@
     <Compile Include="Model\Filtering\FilterArgs.cs" />
     <Compile Include="Model\IDataService.cs" />
     <Compile Include="Core\JsonHelper.cs" />
-    <Compile Include="Model\OrderBy.cs" />
+    <Compile Include="Model\eOrderBy.cs" />
     <Compile Include="Model\PublicTransport.cs" />
     <Compile Include="Model\Sorter.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -148,14 +148,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Skins\ArrowUp.ico" />
-    <Resource Include="Skins\ArrowDown.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Skins\Descending.ico" />
-    <Resource Include="Skins\Ascending.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

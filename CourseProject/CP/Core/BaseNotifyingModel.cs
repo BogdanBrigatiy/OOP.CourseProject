@@ -2,7 +2,7 @@
 
 namespace CP.Core
 {
-    //used as base model to notify vm when data changes
+    //базовий клас-модель, імплементує OnPropertyChanged метод, який дозволяє сповіщати додаток про зміни в даних
     public class BaseNotifyingModel : INotifyPropertyChanged
     {
         protected void OnPropertyChanged(string propertyName)

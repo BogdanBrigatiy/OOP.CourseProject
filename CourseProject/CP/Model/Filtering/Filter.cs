@@ -1,58 +1,61 @@
 ﻿using CP.Core;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace CP.Model.Filtering
 {
-    
+    //клас-фільтр. виконує фільтрацію
     public class Filter
     {
-        //public
+        //за потужністю двигуна
         public List<PublicTransport> ByEnginePower(SimpleFilterArgument<int> arg, List<PublicTransport> collection)
         {
             List<PublicTransport> result;
             try
             {
+                //вибираємо компаратор
                 switch (arg.Comparer)
-                {
+                {//якщо дорівнює
                     case SimpleComparer.Equal:
-                        result = collection.FindAll(p => p.EnginePower == arg.Sample);//.Take(takeValue).ToList(); //takeValue
+                        result = collection.FindAll(p => p.EnginePower == arg.Sample);
                         break;
+                        //якщо більше
                     case SimpleComparer.Bigger:
-                        result = collection.FindAll(p => p.EnginePower > arg.Sample);//.Take(takeValue).ToList();
+                        result = collection.FindAll(p => p.EnginePower > arg.Sample);
                         break;
+                        //меньше
                     case SimpleComparer.Smaller:
-                        result = collection.FindAll(p => p.EnginePower < arg.Sample);//.Take(takeValue).ToList();
+                        result = collection.FindAll(p => p.EnginePower < arg.Sample);
                         break;
+                        //меньше або дорівнює
                     case SimpleComparer.NotBigger:
-                        result = collection.FindAll(p => p.EnginePower <= arg.Sample);//.Take(takeValue).ToList();
+                        result = collection.FindAll(p => p.EnginePower <= arg.Sample);
                         break;
+                        //більше або дорівнює
                     case SimpleComparer.NotSmaller:
-                        result = collection.FindAll(p => p.EnginePower >= arg.Sample);//.Take(takeValue).ToList();
+                        result = collection.FindAll(p => p.EnginePower >= arg.Sample);
                         break;
+                        //якщо не використовується фільтр
                     default:
-                        result = collection;//.Take(takeValue).ToList(); ;
+                        result = collection;
                         break;
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) //перехоплення ексепшену
             {
                 MessageBox.Show("An error occured:\r\n" + ex.Message, Constants.DefaultErrorHeader);
-                result = new List<PublicTransport>();
+                result = new List<PublicTransport>(); //повертаємо новий пустий список
             }
 
             return result;
         }
         public List<PublicTransport> BySeats(SimpleFilterArgument<int> arg, List<PublicTransport> collection)
         {
-            List<PublicTransport> result;// = new List<PublicTransport>();
+            List<PublicTransport> result;
 
             try
-            {
+            {//вибираємо компаратор
                 switch (arg.Comparer)
                 {
                     case SimpleComparer.Equal:
@@ -75,7 +78,7 @@ namespace CP.Model.Filtering
                         break;
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) //преехоплення ексепшенів
             {
                 MessageBox.Show("An error occured:\r\n" + ex.Message, Constants.DefaultErrorHeader);
                 result = new List<PublicTransport>();
@@ -84,10 +87,10 @@ namespace CP.Model.Filtering
         }
         public List<PublicTransport> ByAxles(SimpleFilterArgument<int> arg, List<PublicTransport> collection)
         {
-            List<PublicTransport> result;// = new List<PublicTransport>();
+            List<PublicTransport> result;
 
             try
-            {
+            {//вибираємо компаратор
                 switch (arg.Comparer)
                 {
                     case SimpleComparer.Equal:
@@ -124,17 +127,20 @@ namespace CP.Model.Filtering
             List<PublicTransport> result;
             try
             {
+                //бінарний компаратор.
                 switch (arg.Comparer)
                 {
+                    //якщо дорівнює
                     case SimpleComparer.Equal:
                         result = collection.FindAll(p => p.LowClearance == arg.Sample);
                         break;
+                        //якщо не підлягає фільтрації
                     default:
                         result = collection;
                         break;
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) //перехоплення виключних ситуацій
             {
                 MessageBox.Show("An error occured:\r\n" + ex.Message, Constants.DefaultErrorHeader);
                 result = new List<PublicTransport>();
@@ -144,7 +150,7 @@ namespace CP.Model.Filtering
         }
         public List<PublicTransport> ByDoors(SimpleFilterArgument<int> arg, List<PublicTransport> collection)
         {
-            List<PublicTransport> result;// = new List<PublicTransport>();
+            List<PublicTransport> result;
 
             try
             {
@@ -181,7 +187,7 @@ namespace CP.Model.Filtering
 
         public List<PublicTransport> ByStandingRoom(SimpleFilterArgument<int> arg, List<PublicTransport> collection)
         {
-            List<PublicTransport> result;// = new List<PublicTransport>();
+            List<PublicTransport> result;
 
             try
             {
@@ -300,6 +306,5 @@ namespace CP.Model.Filtering
 
             return result;
         }
-        //private
     }
 }

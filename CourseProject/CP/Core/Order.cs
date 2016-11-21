@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CP.Core
+﻿namespace CP.Core
 {
+    //порядок сортування
     public enum Order
     {
         None,
