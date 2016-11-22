@@ -10,7 +10,8 @@
     Title="Object-oriented programming course project"
     Width="964.398"
     Height="547"
-    mc:Ignorable="d ignore" Closing="Window_Closing">
+    Closing="Window_Closing"
+    mc:Ignorable="d ignore">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -22,7 +23,6 @@
                     <Converters:ListLengthToBoolConverter x:Key="ListLengthToBoolConverter" />
                     <Converters:ComparerToStringConverter x:Key="ComparerToStringConverter" />
                     <Converters:ZeroToMsgConverter x:Key="ZeroToMsgConverter" />
-
 
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
@@ -179,6 +179,7 @@
             Keyboard.KeyDown="textBox_Copy1_KeyDown"
             Keyboard.KeyUp="textBox_Copy1_KeyDown"
             Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
+            LostFocus="textBox_Copy1_LostFocus"
             Text="{Binding SelectedItem.EnginePower, UpdateSourceTrigger=PropertyChanged}"
             TextWrapping="Wrap" />
         <TextBlock
@@ -210,6 +211,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
+            LostFocus="textBox_Copy1_LostFocus"
             Text="{Binding SelectedItem.Axles, UpdateSourceTrigger=PropertyChanged}"
             TextWrapping="Wrap" />
         <TextBlock
@@ -228,6 +230,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
+            LostFocus="textBox_Copy1_LostFocus"
             Text="{Binding SelectedItem.PassengerCapacity, UpdateSourceTrigger=PropertyChanged}"
             TextWrapping="Wrap" />
         <TextBlock
@@ -246,6 +249,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
+            LostFocus="textBox_Copy1_LostFocus"
             Text="{Binding SelectedItem.Seats, UpdateSourceTrigger=PropertyChanged}"
             TextWrapping="Wrap" />
         <TextBlock
@@ -264,6 +268,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
+            LostFocus="textBox_Copy1_LostFocus"
             Text="{Binding SelectedItem.Doors, UpdateSourceTrigger=PropertyChanged}"
             TextWrapping="Wrap" />
         <TextBlock
@@ -362,6 +367,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
+            LostFocus="textBox_Copy1_LostFocus"
             Text="{Binding EnginePowerArg.Sample}"
             TextWrapping="Wrap" />
         <Button
@@ -391,6 +397,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
+            LostFocus="textBox_Copy1_LostFocus"
             Text="{Binding AxlesArg.Sample}"
             TextWrapping="Wrap" />
         <Button
@@ -420,6 +427,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
+            LostFocus="textBox_Copy1_LostFocus"
             Text="{Binding CapacityArg.Sample}"
             TextWrapping="Wrap" />
         <Button
@@ -449,6 +457,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
+            LostFocus="textBox_Copy1_LostFocus"
             Text="{Binding SeatsArg.Sample}"
             TextWrapping="Wrap" />
         <Button
@@ -492,6 +501,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
+            LostFocus="textBox_Copy1_LostFocus"
             Text="{Binding DoorsArg.Sample}"
             TextWrapping="Wrap" />
         <Button
@@ -521,6 +531,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Keyboard.PreviewKeyDown="textBox1_Copy1_PreviewKeyDown"
+            LostFocus="textBox_Copy1_LostFocus"
             Text="{Binding StandsArg.Sample}"
             TextWrapping="Wrap" />
         <Button
@@ -606,13 +617,13 @@
         <Button
             x:Name="button3_Copy6"
             Grid.Column="1"
-            Width="104"
+            Width="114"
             Margin="163,343,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Transparent"
             Command="{Binding CancelFilterCommand}"
-            Content="Зкинути результат" />
+            Content="Скинути результат" />
         <Button
             x:Name="button3_Copy7"
             Grid.Column="1"
@@ -736,7 +747,7 @@
             VerticalAlignment="Top"
             Background="Transparent"
             Command="{Binding CancelOrderByCommand}"
-            Content="Зкинути" />
+            Content="Скинути" />
         <Button
             x:Name="button3_Copy11"
             Grid.Column="1"
@@ -771,8 +782,5 @@
             VerticalAlignment="Top"
             Text="Редагування"
             TextWrapping="Wrap" />
-
-
-
     </Grid>
 </Window>

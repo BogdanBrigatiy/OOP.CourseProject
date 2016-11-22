@@ -27,6 +27,7 @@ namespace CP.Model
         //експорт списку
         public bool ExportTransportList(List<PublicTransport> exportable)
         {
+            //MessageBox.Show(string.Join(", ", exportable));
             SaveFileDialog _sfd = new SaveFileDialog();
             _sfd.FileName = Constants.DefaultFilePath;
             try
@@ -52,11 +53,12 @@ namespace CP.Model
             {
                 try
                 {
-                    return JsonHelper.Deserealize<List<PublicTransport>>(_fileManager.ReadFromFile(_ofd.FileName, Encoding.UTF8));
+                    return JsonHelper.Deserealize<List<PublicTransport>>(_fileManager.ReadFromFile(_ofd.FileName, Encoding.UTF8)) ?? new List<PublicTransport>();
+                    //return result;
                 }
                 catch (Exception ex)//перехоплення виключниз ситуацій
                 {
-                    MessageBox.Show("An error occured!\r\nAdditional info:\r\n" + ex.Message, Constants.DefaultErrorHeader);
+                    MessageBox.Show(Constants.DefaultMessageBody + ex.Message, Constants.DefaultErrorHeader);
                 }
             }
 
@@ -75,11 +77,11 @@ namespace CP.Model
             }
             catch (Exception ex)//перехоплення виключниз ситуацій
             {
-                MessageBox.Show("Exportation error! \r\n Additional informational\r\n" + ex.Message, "An error occured!");
+                MessageBox.Show("Помилка експорту! \r\nДодаткова інформація:\r\n" + ex.Message, Constants.DefaultErrorHeader);
                 flag = true;
             }
 
-            return flag;//t.SaveToFile();
+            return flag;
         }
         //імпорт одиничного екземпляру з файлу
         public PublicTransport ImportSingle(PublicTransport t)
@@ -96,7 +98,7 @@ namespace CP.Model
             }
             catch (Exception ex) //перехоплення виключниз ситуацій
             {
-                MessageBox.Show("Data was not imported! \r\n" + ex.Message, "An error occured!");
+                MessageBox.Show("Дані не були імпортовані! \r\n" + ex.Message, Constants.DefaultErrorHeader);
             }
             return t;
         }

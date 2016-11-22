@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CP.Core;
+using System;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -24,13 +25,13 @@ namespace CP.Model
             }
             catch(UnauthorizedAccessException ex)
             {
-                MessageBox.Show(ex.Message, "Access denied!");
+                MessageBox.Show(Constants.UnauthorizedAccessMessage + ex.Message, Constants.DefaultErrorHeader);
                 flag = false;
             }
             catch(Exception ex)
             {
                 flag = false;
-                MessageBox.Show(ex.Message, "Some error occured!");
+                MessageBox.Show(ex.Message, Constants.DefaultErrorHeader);
             }
             return flag;            
         }
@@ -50,11 +51,11 @@ namespace CP.Model
             }
             catch (UnauthorizedAccessException ex)
             {
-                MessageBox.Show(ex.Message, "Access denied!");
+                MessageBox.Show(Constants.UnauthorizedAccessMessage + ex.Message, Constants.DefaultErrorHeader);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Some error occured!");
+                MessageBox.Show(ex.Message, Constants.DefaultErrorHeader);
             }
             return content;
         }

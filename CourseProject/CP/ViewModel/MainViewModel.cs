@@ -166,7 +166,7 @@ namespace CP.ViewModel
         //ініціалізація команд
         void InitializeComands()
         {
-            OrderByCommand = new RelayCommand(OrderBy);
+            //OrderByCommand = new RelayCommand(OrderBy);
             ImportAllCommand = new RelayCommand(ImportAll);
             ExportAllCommand = new RelayCommand(ExportAll);
             ImportSingleCommand = new RelayCommand(ImportSingle);
@@ -341,14 +341,11 @@ namespace CP.ViewModel
         //імпорт всіх
         void ImportAll()
         {
+            SaveDiscardCancel();
+
             TransportList = new ObservableCollection<PublicTransport>(_dataService.ImportTransportList());
             _orderFlag = Order.None;
             ordrBtnText = "Не впорядковано";
-        }
-        //впорядкуваняя
-        void OrderBy()
-        {
-
         }
         //зміна компаратора
         SimpleComparer ShiftComparer(SimpleComparer a)
@@ -387,9 +384,18 @@ namespace CP.ViewModel
                 //MessageBox.Show("Error during calculating avg value! \r\nAdditional info:\r\n" + ex.Message, Constants.DefaultErrorHeader);
             }
         }
-        public void SaveBeforeExit()
+        public bool SaveDiscardCancel()
         {
-            ExportAll();
+            bool flag = false;
+
+            if (TransportList.Count != 0)
+                switch (MessageBox.Show("Зберегти внесені зміни?", Constants.DefaultWarningHeader, MessageBoxButton.YesNoCancel))
+                {
+                    case MessageBoxResult.Yes: ExportAll(); break;
+                    case MessageBoxResult.Cancel: return true;
+                    default: break;
+                }
+            return flag;
         }
         ~MainViewModel()
         {

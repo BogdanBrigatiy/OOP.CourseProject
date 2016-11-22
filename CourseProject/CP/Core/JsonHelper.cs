@@ -17,9 +17,6 @@ namespace CP.Core
             catch (Exception ex)
             {
                 MessageBox.Show("An error occured!\r\nAdditional information:\r\n" + ex.Message, Constants.DefaultErrorHeader);
-            }
-            finally
-            {
                 serializedObjectString = JsonConvert.SerializeObject(null, Formatting.Indented);
             }
 

@@ -18,7 +18,7 @@ namespace CP.Model
         public string Model
         {
             get { return _model; }
-            set { _model = value; OnPropertyChanged("Model"); }
+            set { if (value == null | value == string.Empty) { value = "н.д."; } _model = value; OnPropertyChanged("Model"); }
         }
         //тип двигуна. Описаний в EENgineType
         public EEngineType EngineType

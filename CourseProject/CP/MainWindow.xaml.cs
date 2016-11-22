@@ -2,6 +2,7 @@
 using CP.ViewModel;
 using System.Windows.Input;
 using CP.Core;
+using System.Windows.Controls;
 
 namespace CP
 {
@@ -66,14 +67,20 @@ namespace CP
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            switch (MessageBox.Show("Зберегти внесені зміни?", Constants.DefaultWarningHeader, MessageBoxButton.YesNoCancel))
-            {
-                case MessageBoxResult.Cancel: e.Cancel = true; break;
-                case MessageBoxResult.Yes: ViewModelLocator.Main.SaveBeforeExit(); break;
-                case MessageBoxResult.No: break;
-            }
+            e.Cancel = ViewModelLocator.Main.SaveDiscardCancel();
+            //switch (MessageBox.Show("Зберегти внесені зміни?", Constants.DefaultWarningHeader, MessageBoxButton.YesNoCancel))
+            //{
+            //    case MessageBoxResult.Cancel: e.Cancel = true; break;
+            //    case MessageBoxResult.Yes: ViewModelLocator.Main.SaveBeforeExit(); break;
+            //    case MessageBoxResult.No: break;
+            //}
                 
                 
+        }
+
+        private void textBox_Copy1_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if ((sender as TextBox).Text == "") (sender as TextBox).Text = "0";
         }
     }
 }

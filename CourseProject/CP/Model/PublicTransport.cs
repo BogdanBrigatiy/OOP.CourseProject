@@ -50,7 +50,7 @@ namespace CP.Model
         //конструктор за замовчуванням
         public PublicTransport()
         {
-
+            //Model = "н.д.";
         }
         //конструктор з параметрами
         public PublicTransport(string model,
